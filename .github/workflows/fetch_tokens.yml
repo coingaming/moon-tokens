@@ -1,0 +1,13 @@
+name: Fetch tokens from Figma
+
+on:
+  repository_dispatch:
+    types: [tokens_updated]
+
+  # Allow manual triggering of this workflow
+  workflow_dispatch:
+
+# So only the latest run is executed. Used to avoid concurrency issues as Figma webhook can be spammy at times.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
