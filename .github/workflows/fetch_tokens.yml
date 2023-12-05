@@ -30,6 +30,7 @@ jobs:
         with:
           endpoint: https://api.figma.com/v1/files/S3q1SkVngbwHuwpxHKCsgtJj/variables/local
           configuration: '{ "method": "GET", "headers": {"X-FIGMA-TOKEN": "${{ secrets.FIGMA_TOKEN }}"} }'
+          set-output: false
           save-location: figma	
           save-name: variables
 
