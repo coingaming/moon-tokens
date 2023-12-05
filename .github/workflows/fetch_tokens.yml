@@ -26,8 +26,7 @@ jobs:
           persist-credentials: false
 
       - name: Fetch Figma variables
-        # Pin to a specific commit hash to avoid potential security issues as this GH Action has access to the Figma token.
-        uses: JamesIves/fetch-api-data-action@a6038e77d1603841e1e5c3fd84f36de3ff68aa34
+        uses: JamesIves/fetch-api-data-action@v2
         with:
           endpoint: https://api.figma.com/v1/files/S3q1SkVngbwHuwpxHKCsgtJj/variables/local
           configuration: '{ "method": "GET", "headers": {"X-FIGMA-TOKEN": "${{ secrets.FIGMA_TOKEN }}"} }'
