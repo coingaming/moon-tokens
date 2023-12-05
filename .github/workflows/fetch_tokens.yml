@@ -15,5 +15,27 @@ concurrency:
 jobs:
   fetch_tokens:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+
     steps:
-      - run: echo "Placeholder message"
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Fetch Figma variables
+        # Pin to a specific commit hash to avoid potential security issues as this GH Action has access to the Figma token.
+        uses: JamesIves/fetch-api-data-action@a6038e77d1603841e1e5c3fd84f36de3ff68aa34
+        with:
+          endpoint: https://api.figma.com/v1/files/S3q1SkVngbwHuwpxHKCsgtJj/variables/local
+          configuration: '{ "method": "GET", "headers": {"X-FIGMA-TOKEN": "${{ secrets.FIGMA_TOKEN }}"} }'
+          save-location: figma	
+          save-name: variables
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actions
+          message: '🤖 Figma Tokens Update'

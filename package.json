@@ -1,0 +1,8 @@
+{
+  "name": "moon-tokens",
+  "version": "0.0.1",
+  "description": "Repository for Moon Design System design tokens.",
+  "devDependencies": {
+    "style-dictionary": "^3.9.0"
+  }
+}
