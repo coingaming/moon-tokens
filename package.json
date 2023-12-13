@@ -2,7 +2,14 @@
   "name": "moon-tokens",
   "version": "0.0.1",
   "description": "Repository for Moon Design System design tokens.",
+  "scripts": {
+    "build": "node ./build.js",
+    "clean": "rm -rf build",
+    "transform-figma-variables": "node ./transform-variables.js"
+  },
   "devDependencies": {
-    "style-dictionary": "^3.9.0"
+    "lodash": "^4.17.21",
+    "style-dictionary": "^3.9.0",
+    "tinycolor2": "^1.6.0"
   }
 }

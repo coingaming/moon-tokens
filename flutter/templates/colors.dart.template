@@ -1,0 +1,20 @@
+<%= fileHeader({file, commentStyle: 'short'}) %>
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+import 'package:moon_design/src/utils/color_premul_lerp.dart';
+
+@immutable
+class <%= file.className %> {
+  
+  <%= allTokens.map(function(prop) {
+    return 'static const ' + formatProperty(prop);
+  }).join('\n    ') %>
+
+  const <%= file.className %>({
+    <%= allTokens.map(function(prop) {
+      return 'this.' + prop.name + ',';
+    }).join('\n    ') %>
+  });
+}
