@@ -2,10 +2,27 @@ const StyleDictionary = require("style-dictionary");
 const fs = require("fs");
 const path = require("path");
 const flutterFormats = require("./flutter/formats");
+const flutterTransforms = require("./flutter/transforms");
+
+StyleDictionary.registerFilter({
+  name: "removeNonBrandColors",
+  matcher: function (token) {
+    return token.category !== "color" && token.name.includes("brand");
+  },
+});
 
 StyleDictionary.registerFormat({
   name: "flutter/colors.dart",
   formatter: flutterFormats["flutter/colors.dart"],
+});
+
+StyleDictionary.registerTransformGroup({
+  name: "figma-flutter",
+  transforms: [
+    "attribute/cti",
+    //"name/cti/camel",
+    ...Object.getOwnPropertyNames(flutterTransforms),
+  ],
 });
 
 /**
@@ -29,7 +46,7 @@ function getStyleDictionaryConfig(brand) {
         ],
       },
       flutter: {
-        transformGroup: "flutter-separate",
+        transformGroup: "figma-flutter",
         buildPath: `build/flutter/${brand}/`,
         files: [
           {
@@ -37,11 +54,7 @@ function getStyleDictionaryConfig(brand) {
             format: "flutter/colors.dart",
             className: `${brand}Colors`,
             type: "color",
-            filter: {
-              attributes: {
-                category: "color",
-              },
-            },
+            filter: "removeNonBrandColors",
           },
           /* {
             destination: "style_dictionary_sizes.dart",
