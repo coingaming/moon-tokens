@@ -1,8 +1,11 @@
 const StyleDictionary = require("style-dictionary");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
+const _ = require("style-dictionary/lib/utils/es6_");
 const flutterFormats = require("./flutter/formats");
 const flutterTransforms = require("./flutter/transforms");
+
+const buildFolder = path.resolve(__dirname, "./build");
 
 // Parser to remove junk data from Figma JSON
 StyleDictionary.registerParser({
@@ -38,6 +41,7 @@ StyleDictionary.registerParser({
   },
 });
 
+// Flutter tooling
 StyleDictionary.registerFormat({
   name: "flutter/colors.dart",
   formatter: flutterFormats["flutter/colors.dart"],
@@ -50,20 +54,15 @@ StyleDictionary.registerTransform({
 });
 
 StyleDictionary.registerTransformGroup({
-  name: "figma-flutter",
-  transforms: [
-    "attribute/cti",
-    //"name/cti/camel",
-    "name/flutter/field",
-    "color/hex8flutter",
-  ],
+  name: "flutter/colors",
+  transforms: ["attribute/cti", "name/flutter/field", "color/hex8flutter"],
 });
 
 function getStyleDictionaryConfig(brand) {
   return {
-    source: [`tokens/brands/${brand}/*.json`, "tokens/globals/**/*.json"],
+    source: [`tokens/brands/${brand}/*.json`],
     platforms: {
-      web: {
+      /* web: {
         transformGroup: "web",
         buildPath: `build/web/${brand}/`,
         files: [
@@ -72,13 +71,13 @@ function getStyleDictionaryConfig(brand) {
             format: "scss/variables",
           },
         ],
-      },
+      }, */
       flutter: {
-        transformGroup: "figma-flutter",
+        transformGroup: "flutter/colors",
         buildPath: `build/flutter/${brand}/`,
         files: [
           {
-            destination: `${brand}Colors.dart`,
+            destination: `${_.camelCase(brand)}Colors.dart`,
             format: "flutter/colors.dart",
             className: `${brand}Colors`,
             type: "color",
@@ -118,7 +117,7 @@ const brands = [
   "hub88",
   "mds-dark",
   "mds-light",
-  "mode-1",
+  //"mode-1",
   "partners",
   "pay.io-dark",
   "pay.io-light",
@@ -128,7 +127,10 @@ const brands = [
   "tradeart",
 ];
 
-const platforms = ["web", "flutter"];
+const platforms = [/* "web", */ "flutter"];
+
+// Clear the build folder before building new values
+fs.emptyDirSync(buildFolder);
 
 brands.map(function (brand) {
   platforms.map(function (platform) {

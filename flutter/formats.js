@@ -1,5 +1,6 @@
 const fs = require("fs");
 const _template = require("lodash/template");
+const _ = require("style-dictionary/lib/utils/es6_");
 const {
   fileHeader,
   sortByReference,
@@ -7,7 +8,17 @@ const {
   createPropertyFormatter,
 } = require("style-dictionary/lib/common/formatHelpers");
 
-const isInteger = (num) => /^-?[0-9]+$/.test(num + "");
+function correctClassName(name) {
+  const hasNumAtStart = (name) => /^\d/.test(name);
+  const result = _.camelCase(name);
+
+  return hasNumAtStart(result) ? "b" + result : result;
+}
+
+function whichTheme(name) {
+  const isLightTheme = name.toLowerCase().includes("light");
+  return isLightTheme ? "light" : "dark";
+}
 
 module.exports = {
   "flutter/colors.dart": function ({ dictionary, options, file }) {
@@ -16,10 +27,15 @@ module.exports = {
     );
 
     let allTokens;
+    const themeVariant = whichTheme(file.className);
     const { outputReferences } = options;
     const formatProperty = createPropertyFormatter({
       outputReferences,
       dictionary,
+      formatting: {
+        separator: ":",
+        suffix: ",",
+      },
     });
 
     if (outputReferences) {
@@ -28,7 +44,15 @@ module.exports = {
       allTokens = [...dictionary.allTokens].sort(sortByName);
     }
 
-    return template({ allTokens, file, options, formatProperty, fileHeader });
+    return template({
+      allTokens,
+      file,
+      options,
+      formatProperty,
+      correctClassName,
+      fileHeader,
+      themeVariant,
+    });
   },
 };
 
