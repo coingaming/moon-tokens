@@ -33,7 +33,7 @@ module.exports = {
       outputReferences,
       dictionary,
       formatting: {
-        separator: ":",
+        separator: ": const",
         suffix: ",",
       },
     });

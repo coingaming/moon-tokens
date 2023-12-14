@@ -77,7 +77,7 @@ function getStyleDictionaryConfig(brand) {
         buildPath: `build/flutter/${brand}/`,
         files: [
           {
-            destination: `${_.camelCase(brand)}Colors.dart`,
+            destination: `${_.snakeCase(brand)}_colors.dart`,
             format: "flutter/colors.dart",
             className: `${brand}Colors`,
             type: "color",
