@@ -2,12 +2,34 @@ const StyleDictionary = require("style-dictionary");
 const fs = require("fs");
 const path = require("path");
 const flutterFormats = require("./flutter/formats");
-const flutterTransforms = require("./flutter/transforms");
 
-StyleDictionary.registerFilter({
-  name: "removeNonBrandColors",
-  matcher: function (token) {
-    return token.category !== "color" && token.name.includes("brand");
+StyleDictionary.registerParser({
+  pattern: /\.json$/,
+  parse: ({ contents, filePath }) => {
+    try {
+      const object = JSON.parse(contents);
+      const output = {};
+
+      for (const key in object) {
+        if (object.hasOwnProperty(key)) {
+          for (const subKey in object[key]) {
+            // Skip if the subKey does not contain a "/" as that denotes the
+            // subKey belongs to a Figma collection
+            if (!subKey.includes("/")) continue;
+
+            // Modify the subKey to only keep the last part of the path for name
+            if (object[key].hasOwnProperty(subKey)) {
+              const element = object[key][subKey];
+              output[`${subKey.split("/").pop()}`] = element;
+            }
+          }
+        }
+      }
+
+      return output;
+    } catch (error) {
+      console.log(error);
+    }
   },
 });
 
@@ -18,23 +40,13 @@ StyleDictionary.registerFormat({
 
 StyleDictionary.registerTransformGroup({
   name: "figma-flutter",
-  transforms: [
-    "attribute/cti",
-    //"name/cti/camel",
-    ...Object.getOwnPropertyNames(flutterTransforms),
-  ],
+  transforms: ["attribute/cti", "name/cti/camel", "color/hex8flutter"],
 });
 
-/**
- * @see - https://amzn.github.io/style-dictionary/#/config?id=platform
- */
 function getStyleDictionaryConfig(brand) {
   return {
     source: [`tokens/brands/${brand}/*.json`, "tokens/globals/**/*.json"],
     platforms: {
-      /**
-       * Available platforms: https://amzn.github.io/style-dictionary/#/config?id=platform
-       */
       web: {
         transformGroup: "web",
         buildPath: `build/web/${brand}/`,
@@ -54,7 +66,11 @@ function getStyleDictionaryConfig(brand) {
             format: "flutter/colors.dart",
             className: `${brand}Colors`,
             type: "color",
-            filter: "removeNonBrandColors",
+            filter: {
+              attributes: {
+                category: "color",
+              },
+            },
           },
           /* {
             destination: "style_dictionary_sizes.dart",
@@ -73,10 +89,7 @@ function getStyleDictionaryConfig(brand) {
   };
 }
 
-/**
- * Define the brands you want to build.
- * These should match the names of your Figma modes.
- */
+// Listing the brands explicitly as there seem to be junk collections in the data
 const brands = [
   "8io-dark",
   "8io-light",
@@ -99,15 +112,8 @@ const brands = [
   "tradeart",
 ];
 
-/**
- * Define the platforms you want to build.
- */
 const platforms = ["web", "flutter"];
 
-/**
- * Build the tokens for each brand.
- * {@see - Example based on https://github.com/amzn/style-dictionary/tree/main/examples/advanced/multi-brand-multi-platform}
- */
 brands.map(function (brand) {
   platforms.map(function (platform) {
     const StyleDictionaryExtended = StyleDictionary.extend(

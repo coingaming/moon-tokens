@@ -1,7 +1,5 @@
 const fs = require("fs");
-const { toDartType } = require("./utils.js");
 const _template = require("lodash/template");
-const _ = require("style-dictionary/lib/utils/es6_");
 const {
   fileHeader,
   sortByReference,
