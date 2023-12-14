@@ -7,7 +7,7 @@ const {
   createPropertyFormatter,
 } = require("style-dictionary/lib/common/formatHelpers");
 
-const supportedColorCategories = ["color"];
+const isInteger = (num) => /^-?[0-9]+$/.test(num + "");
 
 module.exports = {
   "flutter/colors.dart": function ({ dictionary, options, file }) {

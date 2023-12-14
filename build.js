@@ -2,7 +2,9 @@ const StyleDictionary = require("style-dictionary");
 const fs = require("fs");
 const path = require("path");
 const flutterFormats = require("./flutter/formats");
+const flutterTransforms = require("./flutter/transforms");
 
+// Parser to remove junk data from Figma JSON
 StyleDictionary.registerParser({
   pattern: /\.json$/,
   parse: ({ contents, filePath }) => {
@@ -11,19 +13,22 @@ StyleDictionary.registerParser({
       const output = {};
 
       for (const key in object) {
+        const subOutput = {};
+
         if (object.hasOwnProperty(key)) {
           for (const subKey in object[key]) {
             // Skip if the subKey does not contain a "/" as that denotes the
             // subKey belongs to a Figma collection
             if (!subKey.includes("/")) continue;
 
-            // Modify the subKey to only keep the last part of the path for name
+            // Modify the subKey to only keep the last segment of the path for name
             if (object[key].hasOwnProperty(subKey)) {
               const element = object[key][subKey];
-              output[`${subKey.split("/").pop()}`] = element;
+              subOutput[`${subKey.split("/").pop()}`] = element;
             }
           }
         }
+        output[key] = subOutput;
       }
 
       return output;
@@ -38,9 +43,20 @@ StyleDictionary.registerFormat({
   formatter: flutterFormats["flutter/colors.dart"],
 });
 
+StyleDictionary.registerTransform({
+  name: "name/flutter/field",
+  type: "name",
+  transformer: flutterTransforms["name/flutter/field"],
+});
+
 StyleDictionary.registerTransformGroup({
   name: "figma-flutter",
-  transforms: ["attribute/cti", "name/cti/camel", "color/hex8flutter"],
+  transforms: [
+    "attribute/cti",
+    //"name/cti/camel",
+    "name/flutter/field",
+    "color/hex8flutter",
+  ],
 });
 
 function getStyleDictionaryConfig(brand) {

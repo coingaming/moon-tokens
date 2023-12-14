@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Repository for Moon Design System design tokens.",
   "scripts": {
-    "build": "node ./build.js",
+    "build": "npm run clean && node ./build.js",
     "clean": "rm -rf build",
     "transform-figma-variables": "node ./transform-variables.js"
   },
