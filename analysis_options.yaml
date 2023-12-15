@@ -1,2 +1,2 @@
 analyzer:
-  exclude: [build/flutter]
+  exclude: [build/flutter/**]
