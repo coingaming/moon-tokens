@@ -1,11 +1,12 @@
 
 // Do not edit directly
-// Generated on Fri, 15 Dec 2023 01:55:28 GMT
+// Generated on Fri, 15 Dec 2023 02:24:41 GMT
 
 
 import 'package:flutter/material.dart';
-import '../../colors.dart';
+import 'package:moon_design/moon_design.dart' show MoonColors;
 
+/// 8io-lightColors - brand colors for the light theme.
 final b8ioLightColors = MoonColors.light.copyWith(  
   beerus: const Color(0xFF010101),
   bulma: const Color(0xFF000000),

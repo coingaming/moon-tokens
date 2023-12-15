@@ -1,7 +1,8 @@
 <%= fileHeader({file, commentStyle: 'short'}) %>
 import 'package:flutter/material.dart';
-import '../../colors.dart';
+import 'package:moon_design/moon_design.dart' show MoonColors;
 
+/// <%= file.className %> - brand colors for the <%= themeVariant %> theme.
 final <%= correctClassName(file.className) %> = MoonColors.<%= themeVariant %>.copyWith(  
   <%= allTokens.map(function(prop) {
     return formatProperty(prop);
