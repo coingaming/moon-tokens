@@ -1,5 +1,6 @@
 library moon_tokens;
 
+export 'src/colors.dart';
 export "src/brands/8io-dark/8io_dark_colors.dart";
 export "src/brands/8io-light/8io_light_colors.dart";
 export "src/brands/bc-dark/bc_dark_colors.dart";

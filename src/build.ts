@@ -4,7 +4,7 @@ import fs from "fs-extra";
 import path from "path";
 import { figmaVariablesSanitizer } from "./shared/parsers";
 import { flutterColorsDart } from "./flutter/formats";
-import { nameFlutterField } from "./flutter/transforms";
+import { nameFlutterField, colorFlutterHex } from "./flutter/transforms";
 
 // Shared parts
 StyleDictionary.registerParser(figmaVariablesSanitizer);
@@ -12,9 +12,10 @@ StyleDictionary.registerParser(figmaVariablesSanitizer);
 // Flutter parts
 StyleDictionary.registerFormat(flutterColorsDart);
 StyleDictionary.registerTransform(nameFlutterField);
+StyleDictionary.registerTransform(colorFlutterHex);
 StyleDictionary.registerTransformGroup({
   name: "flutter/colors",
-  transforms: ["attribute/cti", "name/flutter/field", "color/hex8flutter"],
+  transforms: ["attribute/cti", "name/flutter/field", "color/flutter/hex"],
 });
 
 function getStyleDictionaryConfig(brand: string): Config {

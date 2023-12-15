@@ -1,6 +1,6 @@
 name: moon_tokens
 description: Moon Design System tokens. This package is automatically generated from the Moon Design System master Figma file variables.
-version: 0.0.3
+version: 0.0.6
 homepage: https://github.com/coingaming/moon-tokens
 repository: https://github.com/coingaming/moon-tokens
 
@@ -10,4 +10,3 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  moon_design: ^0.38.0

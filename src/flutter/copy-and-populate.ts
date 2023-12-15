@@ -20,8 +20,9 @@ const updateMoonTokensFile = async (sourceDir: string, targetFile: string) => {
     // Clear the file content
     await fs.writeFile(targetFile, "");
 
-    // Write the initial line
+    // Write the initial lines
     await fs.appendFile(targetFile, "library moon_tokens;\n\n");
+    await fs.appendFile(targetFile, "export 'src/colors.dart';\n");
 
     // Read the subfolders from the source directory
     const subfolders = await fs.readdir(sourceDir);

@@ -1,5 +1,6 @@
 import { Named, Transform } from "style-dictionary";
 import _ from "style-dictionary/lib/utils/es6_";
+import Color from "tinycolor2";
 
 const isNumber = (num: number) => /^-?[0-9]+$/.test(num + "");
 
@@ -14,5 +15,15 @@ export const nameFlutterField: Named<Transform> = {
     );
 
     return isNumber(result) ? "v" + result : result;
+  },
+};
+
+// Correctly transform rgba colors to Flutter hex format.
+export const colorFlutterHex: Named<Transform> = {
+  name: "color/flutter/hex",
+  type: "value",
+  transformer: function ({ value }) {
+    const str = Color.fromRatio(value).toHex8().toUpperCase();
+    return `Color(0x${str.slice(6)}${str.slice(0, 6)})`;
   },
 };

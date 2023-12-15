@@ -6,6 +6,7 @@ interface IFigmaData {
     variables: {
       [key: string]: {
         name: string;
+        remote: boolean;
         valuesByMode: { [key: string]: any };
         variableCollectionId: string;
         resolvedType: string;
@@ -16,7 +17,7 @@ interface IFigmaData {
         defaultModeId: string;
         modes: {
           [key: string]: {
-            id: string;
+            modeId: string;
             name: string;
           };
         };
@@ -50,7 +51,8 @@ const transformFigmaVariables = async (): Promise<void> => {
 
   // Loop through each variable and mode and create a new object
   Object.values(inputData.meta.variables).forEach((variable) => {
-    const { name, valuesByMode, variableCollectionId, resolvedType } = variable;
+    const { name, remote, valuesByMode, variableCollectionId, resolvedType } =
+      variable;
 
     const { defaultModeId } =
       inputData.meta.variableCollections[variableCollectionId];
@@ -60,7 +62,8 @@ const transformFigmaVariables = async (): Promise<void> => {
     Object.values(
       inputData.meta.variableCollections[variableCollectionId].modes
     ).forEach((mode) => {
-      const { id: modeId, name: modeName } = mode;
+      if (remote) return;
+      const { modeId: modeId, name: modeName } = mode;
       const modeValue = valuesByMode && valuesByMode[modeId];
 
       if (!transformedData[modeName]) {
