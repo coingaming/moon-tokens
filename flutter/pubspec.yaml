@@ -1,0 +1,12 @@
+name: moon_tokens
+description: Moon Design System tokens.
+version: 0.0.1
+homepage: https://github.com/coingaming/moon-tokens
+repository: https://github.com/coingaming/moon-tokens
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter

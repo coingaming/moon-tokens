@@ -4,8 +4,9 @@
   "description": "Repository for Moon Design System design tokens.",
   "scripts": {
     "build": "ts-node --transpile-only ./src/build.ts",
-    "clean": "rm -rf build",
-    "transform:figma-variables": "ts-node --transpile-only ./src/transform-variables.ts"
+    "transform:figma-variables": "ts-node --transpile-only ./src/transform-variables.ts",
+    "flutter:copy-and-populate": "ts-node --transpile-only ./src/flutter/copy-and-populate.ts",
+    "clean": "rm -rf build"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
