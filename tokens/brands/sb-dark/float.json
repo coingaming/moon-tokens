@@ -1,1 +1,1 @@
-{"float":{"surface border radius/--radius-s-xs":{"value":4},"surface border radius/--radius-s-sm":{"value":8},"interactive border radius/--radius-i-xs":{"value":4},"interactive border radius/--radius-i-sm":{"value":8}}}
+{"float":{"interactive border radius/--radius-i-xs":{"value":4},"interactive border radius/--radius-i-sm":{"value":8},"surface border radius/--radius-s-xs":{"value":4},"surface border radius/--radius-s-sm":{"value":8}}}
