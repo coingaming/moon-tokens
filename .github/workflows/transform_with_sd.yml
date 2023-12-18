@@ -1,0 +1,49 @@
+name: Transform tokens with style-dictionary
+
+on:
+  workflow_run:
+    workflows: [Fetch tokens from Figma]
+    types:
+      - completed
+
+  # Allow manual triggering of this workflow
+  workflow_dispatch:
+
+# So only the latest run is executed. Used to avoid concurrency issues as Figma webhook can be spammy at times.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs: 
+  trigger_icon_workflows:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+      
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 21
+  
+      - name: Install dependencies
+        run: npm i
+
+      - name: Transform Figma variables
+        run: npm run transform:figma-variables
+
+      - name: Run style-dictionary build
+        run: npm run build
+
+      - name: Copy Flutter tokens and generate exports
+        run: npm run flutter:copy-and-populate
+  
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          # Fix versions until React and Elixir get on board
+          commit-message: 'fix: style-dictionary tokens update'
+          title: 'fix: style-dictionary tokens update'
+          branch: sd-tokens-update
