@@ -1,6 +1,6 @@
 {
   "name": "moon-tokens",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "Repository for Moon Design System design tokens.",
   "scripts": {
     "build": "ts-node --transpile-only ./src/build.ts",

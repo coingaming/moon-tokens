@@ -2,6 +2,15 @@
 
 Flutter: Fix the colors.
 
+## [0.0.7](https://github.com/coingaming/moon-tokens/compare/moon-tokens-v0.0.6...moon-tokens-v0.0.7) (2024-08-09)
+
+
+### Bug Fixes
+
+* add license ([a4050df](https://github.com/coingaming/moon-tokens/commit/a4050dff87a8fc562bf1ce6d85636d48f1e521a1))
+* revert back to MIT license ([2b92537](https://github.com/coingaming/moon-tokens/commit/2b92537e003f1141efc184cbd686de106a3a4195))
+* style-dictionary tokens update ([#2](https://github.com/coingaming/moon-tokens/issues/2)) ([f72169d](https://github.com/coingaming/moon-tokens/commit/f72169dba335bc1a997a70303ec78b302bf0b568))
+
 ## 0.0.5
 
 Flutter: Export MoonColors class.
