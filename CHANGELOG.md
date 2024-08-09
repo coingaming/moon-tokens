@@ -2,6 +2,13 @@
 
 Flutter: Fix the colors.
 
+## [0.0.8](https://github.com/coingaming/moon-tokens/compare/moon-tokens-v0.0.7...moon-tokens-v0.0.8) (2024-08-09)
+
+
+### Bug Fixes
+
+* revert back to MIT license retry ([b7200cb](https://github.com/coingaming/moon-tokens/commit/b7200cbb6cbce1ab2f842b9403b0d06eb30db07c))
+
 ## [0.0.7](https://github.com/coingaming/moon-tokens/compare/moon-tokens-v0.0.6...moon-tokens-v0.0.7) (2024-08-09)
 
 
